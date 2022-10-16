@@ -17,6 +17,6 @@
 
 - name: Set Timezone to {{ timezone }}
   community.general.timezone:
-    name: {{ timezone }}
+    name: "{{ timezone }}"
   notify:
     - Restart chrony
