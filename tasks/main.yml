@@ -1,2 +1,22 @@
 ---
 # tasks file for ansible-role-chrony
+- name: Ensure chronyd is installed
+  ansible.builtin.apt:
+    name: chrony
+    state: latest
+
+- name: Deploy chrony.conf template
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart chrony
+
+- name: Set Timezone to {{ timezone }}
+  community.general.timezone:
+    name: {{ timezone }}
+  notify:
+    - Restart chrony
